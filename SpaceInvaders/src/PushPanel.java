@@ -10,8 +10,7 @@ public class PushPanel extends JPanel {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 8387668405974705371L;
-	
+
 	private JButton push;
 
 	/*

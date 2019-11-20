@@ -24,14 +24,13 @@ public class Board extends JPanel implements Runnable, Commons {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
 
 	private Dimension d;
 	private ArrayList aliens;
 	private Player player;
 	private Shot shot;
 	private GameOver gameend;
-	private Won vunnet;
+	private Won Winner;
 
 	private int alienX = 150;
 	private int alienY = 25;
@@ -42,8 +41,7 @@ public class Board extends JPanel implements Runnable, Commons {
 	private boolean havewon = true;
 	private final String expl = "/img/explosion.png";
 	private final String alienpix = "/img/alien.png";
-	private String message = "Seu planeta nos pertence agora...";
-
+	private String message = "TSM";
 	private Thread animator;
 
 	/*
@@ -161,12 +159,12 @@ public class Board extends JPanel implements Runnable, Commons {
 		Graphics g = this.getGraphics();
 
 		gameend = new GameOver();
-		vunnet = new Won();
+		Winner = new Won();
 
 		// g.setColor(Color.black);
 		g.fillRect(0, 0, BOARD_WIDTH, BOARD_HEIGTH);
 		if (havewon == true) {
-			g.drawImage(vunnet.getImage(), 0, 0, this);
+			g.drawImage(Winner.getImage(), 0, 0, this);
 		} else {
 			g.drawImage(gameend.getImage(), 0, 0, this);
 		}
@@ -187,7 +185,7 @@ public class Board extends JPanel implements Runnable, Commons {
 	public void animationCycle() {
 		if (deaths == NUMBER_OF_ALIENS_TO_DESTROY) {
 			ingame = false;
-			message = "Parabéns! Você salvou a galáxia!";
+			message = "C9";
 		}
 
 		// player
