@@ -23,13 +23,13 @@ public class SpaceInvaders extends JFrame implements Commons {
 	/*
 	 * Ajuda
 	 */
-	private static final String HELP_TOP_MESSAGE = "Ajuda";
-	private static final String HELP_MESSAGE = "Controles: " 
+	private static final String HELP_TOP_MESSAGE = "About";
+	private static final String HELP_MESSAGE = "Instruction: " 
 							+"Arrow Keys to move and Space bar to shoot";
 
 	JFrame frame = new JFrame("Space Invaders");
 	JFrame frame2 = new JFrame("Space Invaders");
-	JFrame frame3 = new JFrame("Ajuda");
+	JFrame frame3 = new JFrame("Help Center");
 
 	/*
 	 * Constructor
@@ -106,7 +106,7 @@ public class SpaceInvaders extends JFrame implements Commons {
 
 	private class HelpButton implements ActionListener {
 		public void actionPerformed(ActionEvent event) {
-			JButton close = new JButton("Fechar");
+			JButton close = new JButton("Quit");
 			close.addActionListener(new CloseHelp());
 
 			String topmessage = "<html><br>" + HELP_TOP_MESSAGE + "</html>";
