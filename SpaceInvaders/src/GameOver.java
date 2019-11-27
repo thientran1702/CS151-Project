@@ -1,4 +1,10 @@
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
+
+
 
 /**
  * 
@@ -8,6 +14,7 @@ public class GameOver extends Sprite implements Commons {
 
 	private final String gameOver = "/img/gameover.png";
 	private int width;
+	private JButton restartButton;
 
 	/*
 	 * Constructor
@@ -20,6 +27,31 @@ public class GameOver extends Sprite implements Commons {
 		setImage(ii.getImage());
 		setX(0);
 		setY(0);
+		
+		add(restartButton);
+	}
+	
+	//add restart button
+	
+			public void addRestartButton() {
+				 
+			    restartButton = new JButton("New Game?");
+			    restartButton.addActionListener(new ButtonListener());
+			    restartButton.setBounds(800, 800, 200, 100);
+			    add(restartButton);
+			    
+			}
+
+			private void add(JButton restartButton2) {
+		// TODO Auto-generated method stub
+		
+	}
+
+			private class ButtonListener implements ActionListener {
+				public void actionPerformed(ActionEvent event) {
+					new SpaceInvaders();
+
+				}
 	}
 
 	/*

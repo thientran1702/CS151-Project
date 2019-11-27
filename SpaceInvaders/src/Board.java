@@ -1,19 +1,25 @@
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.Random;
 
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JPanel;
-import javax.imageio.ImageIO;
 
 /**
  * 
@@ -38,10 +44,11 @@ public class Board extends JPanel implements Runnable, Commons {
 	private int deaths = 0;
 
 	private boolean ingame = true;
+	private boolean ispaued = false;
 	private boolean havewon = true;
 	private final String expl = "/img/explosion.png";
 	private final String alienpix = "/img/alien.png";
-	private String message = "TSM";
+	private String message = "Game Over";
 	private Thread animator;
 
 	/*
@@ -49,6 +56,13 @@ public class Board extends JPanel implements Runnable, Commons {
 	 */
 	public Board() {
 		addKeyListener(new TAdapter());
+		addMouseMotionListener(new ButtonMouseHoverAdapter());
+		addMouseListener(new ButtonClickedAdapter());
+		resetGame();
+	}
+
+	private void resetGame() {
+		ispaued = false;
 		setFocusable(true);
 		d = new Dimension(BOARD_WIDTH, BOARD_HEIGTH);
 		setBackground(Color.black);
@@ -64,6 +78,9 @@ public class Board extends JPanel implements Runnable, Commons {
 
 	public void gameInit() {
 		aliens = new ArrayList();
+		// Safer for thread access
+		Collections.synchronizedList(aliens);
+		ingame = true;
 
 		ImageIcon ii = new ImageIcon(this.getClass().getResource(alienpix));
 
@@ -82,6 +99,7 @@ public class Board extends JPanel implements Runnable, Commons {
 			animator = new Thread(this);
 			animator.start();
 		}
+
 	}
 
 	public void drawAliens(Graphics g) {
@@ -149,6 +167,8 @@ public class Board extends JPanel implements Runnable, Commons {
 			drawPlayer(g);
 			drawShot(g);
 			drawBombing(g);
+			// Pause button
+			drawPauseButtons(g);
 		}
 
 		Toolkit.getDefaultToolkit().sync();
@@ -178,8 +198,41 @@ public class Board extends JPanel implements Runnable, Commons {
 
 		g.setColor(Color.white);
 		g.setFont(small);
-		g.drawString(message, (BOARD_WIDTH - metr.stringWidth(message)) / 2,
-				BOARD_WIDTH / 2);
+		g.drawString(message, (BOARD_WIDTH - metr.stringWidth(message)) / 2, BOARD_WIDTH / 2);
+
+		drawNewGameButtons(Color.white);
+	}
+
+	// Draw new game button
+	private void drawNewGameButtons(Color color) {
+		Font small = new Font("Helvetica", Font.BOLD, 14);
+		FontMetrics metr = this.getFontMetrics(small);
+		Graphics g = this.getGraphics();
+		g.setColor(new Color(0, 32, 48));
+		g.fillRect(50, BOARD_WIDTH / 2 + 50, BOARD_WIDTH - 100, 50);
+		g.setColor(color);
+		g.drawRect(50, BOARD_WIDTH / 2 + 50, BOARD_WIDTH - 100, 50);
+		g.setColor(color);
+		g.setFont(small);
+		g.drawString("New Game?", (BOARD_WIDTH - metr.stringWidth("New Game?")) / 2, BOARD_WIDTH / 2 + 80);
+
+	}
+
+	// Draw pause/continue button
+	private void drawPauseButtons(Graphics g) {
+		Font small = new Font("Helvetica", Font.BOLD, 14);
+		FontMetrics metr = this.getFontMetrics(small);
+		String message = ispaued ? "Continue" : "Pause";
+		int width = metr.stringWidth(message);
+		Color color = ispaued ? Color.red : Color.white;
+		g.setColor(new Color(0, 32, 48));
+		g.fillRect(BOARD_WIDTH - 90, 5, 80, 45);
+		g.setColor(color);
+		g.drawRect(BOARD_WIDTH - 90, 5, 80, 45);
+		g.setColor(color);
+		g.setFont(small);
+		g.drawString(message, BOARD_WIDTH - 50 - width / 2, 32);
+
 	}
 
 	public void animationCycle() {
@@ -204,11 +257,9 @@ public class Board extends JPanel implements Runnable, Commons {
 				int alienY = alien.getY();
 
 				if (alien.isVisible() && shot.isVisible()) {
-					if (shotX >= (alienX) && shotX <= (alienX + ALIEN_WIDTH)
-							&& shotY >= (alienY)
+					if (shotX >= (alienX) && shotX <= (alienX + ALIEN_WIDTH) && shotY >= (alienY)
 							&& shotY <= (alienY + ALIEN_HEIGHT)) {
-						ImageIcon ii = new ImageIcon(getClass().getResource(
-								expl));
+						ImageIcon ii = new ImageIcon(getClass().getResource(expl));
 						alien.setImage(ii.getImage());
 						alien.setDying(true);
 						deaths++;
@@ -264,7 +315,7 @@ public class Board extends JPanel implements Runnable, Commons {
 				if (y > GROUND - ALIEN_HEIGHT) {
 					havewon = false;
 					ingame = false;
-					message = "Aliens estão invadindo a galáxia!";
+					message = "Aliens estï¿½o invadindo a galï¿½xia!";
 				}
 
 				alien.act(direction);
@@ -293,11 +344,9 @@ public class Board extends JPanel implements Runnable, Commons {
 			int playerY = player.getY();
 
 			if (player.isVisible() && !b.isDestroyed()) {
-				if (bombX >= (playerX) && bombX <= (playerX + PLAYER_WIDTH)
-						&& bombY >= (playerY)
+				if (bombX >= (playerX) && bombX <= (playerX + PLAYER_WIDTH) && bombY >= (playerY)
 						&& bombY <= (playerY + PLAYER_HEIGHT)) {
-					ImageIcon ii = new ImageIcon(this.getClass().getResource(
-							expl));
+					ImageIcon ii = new ImageIcon(this.getClass().getResource(expl));
 					player.setImage(ii.getImage());
 					player.setDying(true);
 					b.setDestroyed(true);
@@ -321,7 +370,9 @@ public class Board extends JPanel implements Runnable, Commons {
 
 		while (ingame) {
 			repaint();
-			animationCycle();
+			if (!ispaued) {
+				animationCycle();
+			}
 
 			timeDiff = System.currentTimeMillis() - beforeTime;
 			sleep = DELAY - timeDiff;
@@ -336,6 +387,7 @@ public class Board extends JPanel implements Runnable, Commons {
 			beforeTime = System.currentTimeMillis();
 		}
 		gameOver();
+
 	}
 
 	private class TAdapter extends KeyAdapter {
@@ -351,13 +403,71 @@ public class Board extends JPanel implements Runnable, Commons {
 			int x = player.getX();
 			int y = player.getY();
 
-			if (ingame) {
+			if (ingame && !ispaued) {
 				int key = e.getKeyCode();
 				if (key == KeyEvent.VK_SPACE) {
 
 					if (!shot.isVisible())
 						shot = new Shot(x, y);
 				}
+			}
+		}
+	}
+
+	/**
+	 * Handle move movement to New Game button or Pause
+	 * 
+	 * @author a
+	 *
+	 */
+	private class ButtonMouseHoverAdapter extends MouseMotionAdapter {
+		@Override
+		public void mouseMoved(MouseEvent e) {
+			int x = e.getX();
+			int y = e.getY();
+			if (ingame) {
+				super.mouseMoved(e);
+				return;
+			}
+			// New Game location
+
+			int min_x = 50;
+			int min_y = BOARD_WIDTH / 2 + 50;
+			int max_x = min_x + BOARD_WIDTH - 100;
+			int max_y = min_y + 50;
+			Color color = Color.white;
+			if (x >= min_x && x <= max_x && y >= min_y && y <= max_y) {
+				color = Color.green;
+			}
+			drawNewGameButtons(color);
+		}
+	}
+
+	// Handle mouse click on the buttons
+	private class ButtonClickedAdapter extends MouseAdapter {
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			int x = e.getX();
+			int y = e.getY();
+			if (ingame) {
+				// If click on the Pause/Continue
+				int min_x = BOARD_WIDTH - 90;
+				int min_y = 5;
+				int max_x = min_x + 80;
+				int max_y = min_y + 45;
+				if (x >= min_x && x <= max_x && y >= min_y && y <= max_y) {
+					ispaued = !ispaued;
+				}
+				return;
+			}
+			// If click on NEW GAME
+			int min_x = 50;
+			int min_y = BOARD_WIDTH / 2 + 50;
+			int max_x = min_x + BOARD_WIDTH - 100;
+			int max_y = min_y + 50;
+			if (x >= min_x && x <= max_x && y >= min_y && y <= max_y) {
+				animator = null;
+				resetGame();
 			}
 		}
 	}

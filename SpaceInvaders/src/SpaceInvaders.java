@@ -13,15 +13,15 @@ public class SpaceInvaders extends JFrame implements Commons {
 	 */
 	
 
-	private JButton start, help;
+	private JButton start, help, restartButton;
 	
 	/*
-	 * Inicio
+	 * Introduction
 	 */
 	private static final String TOP_MESSAGE = "Space Invaders <br> Java Version";
 	private static final String INITIAL_MESSAGE = "Space Invaders, Project Group 42";
 	/*
-	 * Ajuda
+	 * Help
 	 */
 	private static final String HELP_TOP_MESSAGE = "About";
 	private static final String HELP_MESSAGE = "Instruction: " 
@@ -75,7 +75,10 @@ public class SpaceInvaders extends JFrame implements Commons {
 	public void closeHelp() {
 		frame3.dispose();
 	}
-
+	
+	
+		
+	
 	/*
 	 * Main
 	 */
