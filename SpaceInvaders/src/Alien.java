@@ -7,7 +7,7 @@ import javax.swing.ImageIcon;
 public class Alien extends Sprite {
 
     private Bomb bomb;
-    private final String alien = "/img/alien.png";
+    private final String alien = "/img/badGuy.png";
 
     /*
      * Constructor

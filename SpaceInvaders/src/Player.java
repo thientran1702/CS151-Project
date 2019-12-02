@@ -11,18 +11,18 @@ public class Player extends Sprite implements Commons {
 	private final int START_Y = 400;
 	private final int START_X = 270;
 
-	private final String player = "/img/craft.png";
+	private final String player = "/img/rocket.png";
 	private int width;
 
 	/*
 	 * Constructor
 	 */
 	public Player() {
-		ImageIcon ii = new ImageIcon(this.getClass().getResource(player));
+		ImageIcon user = new ImageIcon(this.getClass().getResource(player));
 
-		width = ii.getImage().getWidth(null);
+		width = user.getImage().getWidth(null);
 
-		setImage(ii.getImage());
+		setImage(user.getImage());
 		setX(START_X);
 		setY(START_Y);
 	}

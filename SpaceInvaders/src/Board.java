@@ -47,7 +47,7 @@ public class Board extends JPanel implements Runnable, Commons {
 	private boolean ispaued = false;
 	private boolean havewon = true;
 	private final String expl = "/img/explosion.png";
-	private final String alienpix = "/img/alien.png";
+	private final String alienpix = "/img/badGuy.png";
 	private String message = "Game Over";
 	private Thread animator;
 
