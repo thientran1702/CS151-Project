@@ -192,21 +192,15 @@ public class Board extends JPanel implements Runnable, Commons {
 		g.fillRect(50, BOARD_WIDTH / 2 - 30, BOARD_WIDTH - 100, 50);
 		g.setColor(Color.white);
 		g.drawRect(50, BOARD_WIDTH / 2 - 30, BOARD_WIDTH - 100, 50);
-
-		Font small = new Font("Helvetica", Font.BOLD, 14);
-		FontMetrics metr = this.getFontMetrics(small);
-
 		g.setColor(Color.white);
-		g.setFont(small);
-		g.drawString(message, (BOARD_WIDTH - metr.stringWidth(message)) / 2, BOARD_WIDTH / 2);
+		g.drawString(message, (BOARD_WIDTH) / 2, BOARD_WIDTH / 2);
 
 		drawNewGameButtons(Color.white);
 	}
 
 	// Draw new game button
 	private void drawNewGameButtons(Color color) {
-		Font small = new Font("Helvetica", Font.BOLD, 14);
-		FontMetrics metr = this.getFontMetrics(small);
+
 		Graphics g = this.getGraphics();
 		g.setColor(new Color(0, 32, 48));
 		g.fillRect(50, BOARD_WIDTH / 2 + 50, BOARD_WIDTH - 100, 50);
@@ -214,31 +208,27 @@ public class Board extends JPanel implements Runnable, Commons {
 		g.drawRect(50, BOARD_WIDTH / 2 + 50, BOARD_WIDTH - 100, 50);
 		g.setColor(color);
 		g.setFont(small);
-		g.drawString("New Game?", (BOARD_WIDTH - metr.stringWidth("New Game?")) / 2, BOARD_WIDTH / 2 + 80);
+		g.drawString("New Game?", (BOARD_WIDTH) / 2, BOARD_WIDTH / 2 + 80);
 
 	}
 
 	// Draw pause/continue button
 	private void drawPauseButtons(Graphics g) {
-		Font small = new Font("Helvetica", Font.BOLD, 14);
-		FontMetrics metr = this.getFontMetrics(small);
 		String message = ispaued ? "Continue" : "Pause";
-		int width = metr.stringWidth(message);
 		Color color = ispaued ? Color.red : Color.white;
 		g.setColor(new Color(0, 32, 48));
 		g.fillRect(BOARD_WIDTH - 90, 5, 80, 45);
 		g.setColor(color);
 		g.drawRect(BOARD_WIDTH - 90, 5, 80, 45);
 		g.setColor(color);
-		g.setFont(small);
-		g.drawString(message, BOARD_WIDTH - 50 - width / 2, 32);
+		g.drawString(message, BOARD_WIDTH -150/ 2, 32);
 
 	}
 
 	public void animationCycle() {
 		if (deaths == NUMBER_OF_ALIENS_TO_DESTROY) {
 			ingame = false;
-			message = "C9";
+			message = "You are a Winner!";
 		}
 
 		// player
