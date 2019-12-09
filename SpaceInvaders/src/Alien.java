@@ -26,10 +26,7 @@ public class Alien extends Sprite {
         this.x += direction;
     }
 
-    /*
-     * Getters & Setters
-     */
-    
+
 	public Bullet getBullet() {
 		return Bullet;
 	}

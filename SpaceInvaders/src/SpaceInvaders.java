@@ -43,10 +43,10 @@ public class SpaceInvaders extends JFrame implements Variables {
 		help = new JButton("Help");
 		help.addActionListener(new HelpButton());
 		JLabel test = new JLabel(message, SwingConstants.CENTER);
-		JLabel toptest = new JLabel(topmessage, SwingConstants.CENTER);
+		JLabel header = new JLabel(topmessage, SwingConstants.CENTER);
 	frame2.setTitle("Space Invaders");
 		frame2.add(test);
-		frame2.add(toptest, BorderLayout.PAGE_START);
+		frame2.add(header, BorderLayout.PAGE_START);
 		JPanel Menu = new JPanel();
 		Menu.add(help);
 		Menu.add(start);
@@ -102,16 +102,12 @@ public class SpaceInvaders extends JFrame implements Variables {
 		public void actionPerformed(ActionEvent event) {
 			JButton close = new JButton("Quit");
 			close.addActionListener(new CloseHelp());
-
-			String topmessage = "<html><br>" + HELP_TOP_MESSAGE + "</html>";
+			String topmessage = HELP_TOP_MESSAGE;
 			String message = "<html>" + HELP_MESSAGE + "</html> ";
-			JLabel test = new JLabel(message, SwingConstants.CENTER);
-			JLabel toptest = new JLabel(topmessage, SwingConstants.CENTER);
-
-			frame3.add(test);
-
-			frame3.add(toptest, BorderLayout.PAGE_START);
-
+			JLabel body = new JLabel(message, SwingConstants.CENTER);
+			JLabel header = new JLabel(topmessage, SwingConstants.CENTER);
+			frame3.add(body);
+			frame3.add(header, BorderLayout.PAGE_START);
 			frame3.add(close, BorderLayout.PAGE_END);
 			frame3.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			frame3.setSize(250, 290);

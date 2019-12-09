@@ -55,7 +55,7 @@ public class Game extends JPanel implements Runnable, Variables {
 	 * Constructor
 	 */
 	public Game() {
-		addKeyListener(new TAdapter());
+		addKeyListener(new Controls());
 		addMouseMotionListener(new ButtonMouseHoverAdapter());
 		addMouseListener(new ButtonClickedAdapter());
 		resetGame();
@@ -241,12 +241,12 @@ public class Game extends JPanel implements Runnable, Variables {
 
 		// shot
 		if (shot.isVisible()) {
-			Iterator it = aliens.iterator();
+			Iterator playersbullets = aliens.iterator();
 			int shotX = shot.getX();
 			int shotY = shot.getY();
 
-			while (it.hasNext()) {
-				Alien alien = (Alien) it.next();
+			while (playersbullets.hasNext()) {
+				Alien alien = (Alien) playersbullets.next();
 				int alienX = alien.getX();
 				int alienY = alien.getY();
 
@@ -272,10 +272,10 @@ public class Game extends JPanel implements Runnable, Variables {
 
 		// aliens
 
-		Iterator it1 = aliens.iterator();
+		Iterator alien = aliens.iterator();
 
-		while (it1.hasNext()) {
-			Alien a1 = (Alien) it1.next();
+		while (alien.hasNext()) {
+			Alien a1 = (Alien) alien.next();
 			int x = a1.getX();
 
 			if (x >= BOARD_WIDTH - BORDER_RIGHT && direction != -1) {
@@ -301,10 +301,10 @@ public class Game extends JPanel implements Runnable, Variables {
 		Iterator it = aliens.iterator();
 
 		while (it.hasNext()) {
-			Alien alien = (Alien) it.next();
-			if (alien.isVisible()) {
+			Alien aliens = (Alien) it.next();
+			if (aliens.isVisible()) {
 
-				int y = alien.getY();
+				int y = aliens.getY();
 
 				if (y > GROUND - ALIEN_HEIGHT) {
 					haveWon = false;
@@ -312,7 +312,7 @@ public class Game extends JPanel implements Runnable, Variables {
 					message = "More Aliens";
 				}
 
-				alien.act(direction);
+				aliens.act(direction);
 			}
 		}
 
@@ -383,7 +383,7 @@ public class Game extends JPanel implements Runnable, Variables {
 
 	}
 
-	private class TAdapter extends KeyAdapter {
+	private class Controls extends KeyAdapter {
 
 		public void keyReleased(KeyEvent e) {
 			player.keyReleased(e);
@@ -407,12 +407,7 @@ public class Game extends JPanel implements Runnable, Variables {
 		}
 	}
 
-	/**
-	 * Handle move movement to New Game button or Pause
-	 * 
-	 * @author a
-	 *
-	 */
+
 	private class ButtonMouseHoverAdapter extends MouseMotionAdapter {
 		@Override
 		public void mouseMoved(MouseEvent e) {
