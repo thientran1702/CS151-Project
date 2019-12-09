@@ -10,7 +10,7 @@ import javax.swing.JButton;
  * 
  * @author
  */
-public class GameOver extends Sprite implements Commons {
+public class GameOver extends Sprite implements Variables {
 
 	private final String gameOver = "/img/gameIsOver.png";
 	private int width;
@@ -21,13 +21,10 @@ public class GameOver extends Sprite implements Commons {
 	 */
 	public GameOver() {
 		ImageIcon lose = new ImageIcon(this.getClass().getResource(gameOver));
-
 		setWidth(lose.getImage().getWidth(null));
-
 		setImage(lose.getImage());
 		setX(0);
 		setY(0);
-		
 		add(restartButton);
 	}
 	

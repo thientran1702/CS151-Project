@@ -6,7 +6,7 @@ import javax.swing.ImageIcon;
  */
 public class Alien extends Sprite {
 
-    private Bomb bomb;
+    private Bullet Bullet;
     private final String alien = "/img/badGuy.png";
 
     /*
@@ -16,9 +16,9 @@ public class Alien extends Sprite {
         this.x = x;
         this.y = y;
 
-        bomb = new Bomb(x, y);
-        ImageIcon ii = new ImageIcon(this.getClass().getResource(alien));
-        setImage(ii.getImage());
+        Bullet = new Bullet(x, y);
+        ImageIcon enemy = new ImageIcon(this.getClass().getResource(alien));
+        setImage(enemy.getImage());
 
     }
 
@@ -30,8 +30,8 @@ public class Alien extends Sprite {
      * Getters & Setters
      */
     
-	public Bomb getBomb() {
-		return bomb;
+	public Bullet getBullet() {
+		return Bullet;
 	}
 
 }

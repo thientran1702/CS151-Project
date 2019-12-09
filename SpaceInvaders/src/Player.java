@@ -6,11 +6,7 @@ import javax.swing.ImageIcon;
  * 
  * @author
  */
-public class Player extends Sprite implements Commons {
-
-	private final int START_Y = 400;
-	private final int START_X = 270;
-
+public class Player extends Sprite implements Variables {
 	private final String player = "/img/rocket.png";
 	private int width;
 
@@ -19,15 +15,13 @@ public class Player extends Sprite implements Commons {
 	 */
 	public Player() {
 		ImageIcon user = new ImageIcon(this.getClass().getResource(player));
-
 		width = user.getImage().getWidth(null);
-
 		setImage(user.getImage());
-		setX(START_X);
-		setY(START_Y);
+		setX(400);
+		setY(400);
 	}
 
-	public void act() {
+	public void enablemove() {
 		x += dx;
 		if (x <= 2)
 			x = 2;
@@ -39,14 +33,13 @@ public class Player extends Sprite implements Commons {
 		int key = e.getKeyCode();
 
 		if (key == KeyEvent.VK_LEFT) {
-			dx = -2;
+			dx = -5;
 		}
 
 		if (key == KeyEvent.VK_RIGHT) {
-			dx = 2;
+			dx = 5;
 		}
-
-	}
+}
 
 	public void keyReleased(KeyEvent e) {
 		int key = e.getKeyCode();

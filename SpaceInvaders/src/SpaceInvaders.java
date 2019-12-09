@@ -6,19 +6,19 @@ import javax.swing.*;
  * 
  * @author 
 */
-public class SpaceInvaders extends JFrame implements Commons {
+public class SpaceInvaders extends JFrame implements Variables {
 
 	/**
 	 * 
 	 */
 	
 
-	private JButton start, help, restartButton;
+	private JButton start, help;
 	
 	/*
 	 * Introduction
 	 */
-	private static final String TOP_MESSAGE = "Space Invaders <br> Java Version";
+	private static final String TOP_MESSAGE = "Space Invaders";
 	private static final String INITIAL_MESSAGE = "Space Invaders, Project Group 42";
 	/*
 	 * Help
@@ -35,30 +35,21 @@ public class SpaceInvaders extends JFrame implements Commons {
 	 * Constructor
 	 */
 	public SpaceInvaders() {
-		String topmessage = "<html><br><br>" + TOP_MESSAGE + "</html>";
-		String message = "<html>" + INITIAL_MESSAGE + "</html>";
-
+		String topmessage = TOP_MESSAGE;
+		String message = INITIAL_MESSAGE;
 		start = new JButton("Start Game");
 		start.addActionListener(new ButtonListener());
 		start.setBounds(800, 800, 200, 100);
-
 		help = new JButton("Help");
 		help.addActionListener(new HelpButton());
-
 		JLabel test = new JLabel(message, SwingConstants.CENTER);
 		JLabel toptest = new JLabel(topmessage, SwingConstants.CENTER);
-
-		
-
-		frame2.setTitle("Space Invaders");
-
+	frame2.setTitle("Space Invaders");
 		frame2.add(test);
-
 		frame2.add(toptest, BorderLayout.PAGE_START);
 		JPanel Menu = new JPanel();
 		Menu.add(help);
 		Menu.add(start);
-
 		frame2.add(Menu, BorderLayout.PAGE_END);
 		frame2.setSize(500, 500);
 		frame2.setLocationRelativeTo(null);
@@ -91,8 +82,8 @@ public class SpaceInvaders extends JFrame implements Commons {
 		public void actionPerformed(ActionEvent event) {
 
 			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			frame.setSize(BOARD_WIDTH, BOARD_HEIGTH);
-			frame.getContentPane().add(new Board());
+			frame.setSize(BOARD_WIDTH, BOARD_HEIGHT);
+			frame.getContentPane().add(new Game());
 			frame.setResizable(false);
 			frame.setLocationRelativeTo(null);
 			frame.setVisible(true);
